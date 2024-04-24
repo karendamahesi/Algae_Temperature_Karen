@@ -1,3 +1,4 @@
 {
-    "board": "arduino:renesas_uno:unor4wifi"
+    "board": "arduino:renesas_uno:unor4wifi",
+    "sketch": "Proyecto-prototipo.ino"
 }
