@@ -5,7 +5,7 @@
 #include <Wire.h>
 
 //Crear el objeto lcd  dirección  32 (depende del modelo) y 16 columnas x 2 filas
-LiquidCrystal_I2C lcd(32,16,2);  //
+LiquidCrystal lcd(32,16,2);  //
 
 void setup() {
   // put your setup code here, to run once:

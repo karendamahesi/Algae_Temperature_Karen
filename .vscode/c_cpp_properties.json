@@ -7,7 +7,7 @@
             "compilerArgs": [],
             "intelliSenseMode": "",
             "includePath": [
-                "${workspaceFolder}/**"
+                "C:\\Program Files\\Arduino IDE\\Librerias\\Arduino\\libraries\\LiquidCrystal"
             ],
             "forcedInclude": [],
             "cStandard": "",
