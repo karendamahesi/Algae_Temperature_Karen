@@ -71,7 +71,12 @@ void sensorActivado() {
   estado = ANALISIS_TEMPERATURA;
 }
 
-
+void analisisTemperatura() {
+    
+  // Switch to next state after a while
+  delay(2000); // Wait 2 seconds
+  estado = REMAPEO_VALORES;
+}
 
 
 
