@@ -36,6 +36,45 @@ void setup() {
   }
 
 
+void loop() {
+  // Call the function corresponding to the current state
+  switch (estado) {
+    case SENSOR_ACTIVADO:
+      sensorActivado();
+      break;
+    case ANALISIS_TEMPERATURA:
+      analisisTemperatura();
+      break;
+    case REMAPEO_VALORES:
+      remapeoValores();
+      break;
+    case ACTIVACION:
+      activacion();
+      break;
+    case DESACTIVACION:
+      desactivacion();
+      break;
+    case ENVIO_DATOS_NUBE:
+      envioDatosNube();
+      break;
+  }
+}
+
+void sensorActivado() {
+  // Show message on LCD screen
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Sensor activado");
+  
+  // Switch to next state after a while
+  delay(2000); // Wait 2 seconds
+  estado = ANALISIS_TEMPERATURA;
+}
+
+
+
+
+
 void readSensor() {
   Serial.printIn ("Reading sensor");
   Termistor=map(Temperatura, 0, 1023, -80, 150); //nuevo mapeo de temperatura
