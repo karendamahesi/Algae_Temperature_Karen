@@ -3,6 +3,7 @@
 //Include LiquidCrystal libreries
 #include <LiquidCrystal.h>
 #include <Wire.h>
+#include "thingProperties.h"
 
 
 // Pin definition for LCD screen
@@ -39,6 +40,11 @@ void setup() {
 	// Water pump and relay pin initialization
   pinMode(bombaPin, OUTPUT);
   pinMode(relePin, OUTPUT);
+  
+  // Arduino Cloud Initialization
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  setDebugMessageLevel(2);
+  ArduinoCloud.printDebugInfo();
   }
 
 
@@ -52,6 +58,7 @@ void loop() {
     // Change the state to SENSOR_ACTIVADO to start a new sensor reading
     estado = SENSOR_ACTIVADO;
   }
+}
 
 
 void loop() {
@@ -77,6 +84,9 @@ void loop() {
       envioDatosNube();
       break;
   }
+
+// Update Arduino Cloud Status
+  ArduinoCloud.update();
 }
 
 
@@ -115,6 +125,9 @@ void remapeoValores() {
   lcd.print(temperatura);
   lcd.print(" C");
   
+// Update temperature value in Arduino Cloud
+  ArduinoCloud.updateTemperature(temperatura);
+
     // Switch to next state
   estado = ACTIVACION;
 }
@@ -144,6 +157,6 @@ void activacion() {
 
 
 void desactivacion() {
-  // Cambiar al siguiente estado
+  // Switch to next state
   estado = ENVIO_DATOS_NUBE;
 }
