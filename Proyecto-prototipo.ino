@@ -65,6 +65,7 @@ void loop() {
       break;
     case REMAPEO_VALORES:
       remapeoValores();
+      envioDatosNube(); // Sending data to the cloud 
       break;
     case ACTIVACION:
       activacion();
