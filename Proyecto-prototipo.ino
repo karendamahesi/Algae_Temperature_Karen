@@ -24,6 +24,7 @@ enum Estado {
   ACTIVACION
   DESACTIVACION
   ENVIO_DATOS_NUBE}; 
+
 Estado estado=SENSOR_ACTIVADO; //Initial state
 
 unsigned long tiempoUltimaLectura = 0; // Variable to record the time of the last sensor reading
@@ -46,9 +47,10 @@ void loop() {
     // Update last reading time
     tiempoUltimaLectura = tiempoActual;
     
-    // Cambiar el estado a SENSOR_ACTIVADO para iniciar una nueva lectura del sensor
+    // Change the state to SENSOR_ACTIVADO to start a new sensor reading
     estado = SENSOR_ACTIVADO;
   }
+
 
 void loop() {
   // Call the function corresponding to the current state
@@ -74,6 +76,7 @@ void loop() {
   }
 }
 
+
 void sensorActivado() {
   // Show message on LCD screen
   lcd.clear();
@@ -85,6 +88,7 @@ void sensorActivado() {
   estado = ANALISIS_TEMPERATURA;
 }
 
+
 void analisisTemperatura() {
     
   // Switch to next state after a while
@@ -93,10 +97,17 @@ void analisisTemperatura() {
 }
 
 
+void remapeoValores() {
+  // Temperature sensor reading
+  int lecturaSensor = analogRead(sensorPin);
+  
+  // Remapping values to temperature
+  float temperatura = map(lecturaSensor, 0, 1023, -80, 150);
 
-void readSensor() {
-  Serial.printIn ("Reading sensor");
-  Termistor=map(Temperatura, 0, 1023, -80, 150); //nuevo mapeo de temperatura
+
+
+
+
 }
 
 void loop() {
