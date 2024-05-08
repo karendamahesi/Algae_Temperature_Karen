@@ -26,6 +26,9 @@ enum Estado {
   ENVIO_DATOS_NUBE}; 
 Estado estado=SENSOR_ACTIVADO; //Initial state
 
+unsigned long tiempoUltimaLectura = 0; // Variable to record the time of the last sensor reading
+const unsigned long intervaloLectura = 30 * 60 * 1000; // Reading interval: 30 minutes in milliseconds
+
 
 void setup() {
 	// LCD screen initialization
@@ -35,6 +38,17 @@ void setup() {
   pinMode(bombaPin, OUTPUT);
   }
 
+
+void loop() {
+  // Check if the time has passed to take a new sensor reading
+  unsigned long tiempoActual = millis();
+  if (tiempoActual - tiempoUltimaLectura >= intervaloLectura) {
+    // Update last reading time
+    tiempoUltimaLectura = tiempoActual;
+    
+    // Cambiar el estado a SENSOR_ACTIVADO para iniciar una nueva lectura del sensor
+    estado = SENSOR_ACTIVADO;
+  }
 
 void loop() {
   // Call the function corresponding to the current state
