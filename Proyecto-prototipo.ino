@@ -20,9 +20,21 @@ int Temperatura;           // Any data type for measured temperature variable
 
 // Definition of the states
 enum Estado { 
+  DIRECTING
+  GET_INTERNET_TIME
+  READ_SENSOR
+  EVALUAR_TEMP
+  ACTIVACION
+  DESACTIVACION
+  STORE_SD
+  SEND_CLOUD
+
+
+
   SENSOR_ACTIVADO
   ANALISIS_TEMPERATURA
   REMAPEO_VALORES
+  EVALUAR_TEMP
   ACTIVACION
   DESACTIVACION
   ENVIO_DATOS_NUBE}; 
@@ -62,8 +74,14 @@ void loop() {
 
 
 void loop() {
+
+  // Dequeue (ir tomando, uno por uno, los estados del queue)
+
   // Call the function corresponding to the current state
   switch (estado) {
+    case DIRECTING:
+      directing();
+      break;
     case SENSOR_ACTIVADO:
       sensorActivado();
       break;
@@ -73,6 +91,9 @@ void loop() {
     case REMAPEO_VALORES:
       remapeoValores();
       envioDatosNube(); // Sending data to the cloud 
+      break;
+    case EVALUAR_TEMP:
+      evaluar_temp();
       break;
     case ACTIVACION:
       activacion();
@@ -89,6 +110,16 @@ void loop() {
   ArduinoCloud.update();
 }
 
+
+void directing() {
+  if (tiempoActual % 30000 == 0) {
+    estado = READ_SENSOR;
+  }
+  if (// es media noche?? ///) {
+    estado = GET_INTERNET_TIME
+  }
+
+}
 
 void sensorActivado() {
   // Show message on LCD screen
@@ -129,34 +160,35 @@ void remapeoValores() {
   ArduinoCloud.updateTemperature(temperatura);
 
     // Switch to next state
-  estado = ACTIVACION;
+  estado = EVALUAR_TEMP;
 }
 
+evaluar_temp() {
+    // Check if the recorded temperature is >26°C
+  if (temperatura > 26) {
+    estado = ACTIVACION;
+  }
+  else {
+    estado = DESACTIVACION;
+  }
+}
 
 void activacion() {
-  // Current temperature reading
-  int lecturaSensor = analogRead(sensorPin);
-  float temperatura = map(lecturaSensor, 0, 1023, -80, 150);
 
-  // Check if the recorded temperature is >26°C
-  if (temperatura > 26) {
     // Turn on the relay that activates the water pump
     digitalWrite(relePin, HIGH);
-    // Turn on the water pump for 30 minutes
-    digitalWrite(bombaPin, HIGH);
-    delay(30 * 60 * 1000); // Wait 30 minutes
-    // Turn off the water pump
-    digitalWrite(bombaPin, LOW);
-    // Turn off the relay
-    digitalWrite(relePin, LOW);
-  }
 
-  // Switch to next state
-  estado = DESACTIVACION;
+    estado = IDLE;
+
+
 }
 
 
 void desactivacion() {
-  // Switch to next state
-  estado = ENVIO_DATOS_NUBE;
+
+    // Turn on the relay that activates the water pump
+    digitalWrite(relePin, LOW);
+
+    estado = IDLE;
+
 }
