@@ -119,3 +119,30 @@ void remapeoValores() {
 }
 
 
+void activacion() {
+  // Current temperature reading
+  int lecturaSensor = analogRead(sensorPin);
+  float temperatura = map(lecturaSensor, 0, 1023, -80, 150);
+
+  // Check if the recorded temperature is >26°C
+  if (temperatura > 26) {
+    // Turn on the relay that activates the water pump
+    digitalWrite(relePin, HIGH);
+    // Turn on the water pump for 30 minutes
+    digitalWrite(bombaPin, HIGH);
+    delay(30 * 60 * 1000); // Wait 30 minutes
+    // Turn off the water pump
+    digitalWrite(bombaPin, LOW);
+    // Turn off the relay
+    digitalWrite(relePin, LOW);
+  }
+
+  // Switch to next state
+  estado = DESACTIVACION;
+}
+
+
+void desactivacion() {
+  // Cambiar al siguiente estado
+  estado = ENVIO_DATOS_NUBE;
+}
