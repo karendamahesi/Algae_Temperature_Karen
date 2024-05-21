@@ -90,8 +90,10 @@ void setup() {
 
 
 void loop() {
-
-  // Dequeue (ir tomando, uno por uno, los estados del queue)
+  // Definición de los estados de la queue
+  enum QueueState { GET_INTERNET_TIME, READ_SENSOR };
+  QueueState queue[2] = { GET_INTERNET_TIME, READ_SENSOR };
+  int queueIndex = 0;
 
   // Call the function corresponding to the current state
   switch (estado) {
@@ -124,8 +126,29 @@ void loop() {
       break;
   }
 
+// Iniciar la cola de tareas
+  queueIndex = 0;
+  estado = READ_SENSOR;
+
+// Procesar la cola de tareas
+  processQueue();
+
 // Update Arduino Cloud Status
   ArduinoCloud.update();
+}
+
+
+void processQueue() {
+  switch (queue[queueIndex]) {
+    case GET_INTERNET_TIME:
+      getInternetTime();
+      queueIndex++;
+      break;
+    case READ_SENSOR:
+      readSensor();
+      queueIndex++;
+      break;
+  }
 }
 
 
