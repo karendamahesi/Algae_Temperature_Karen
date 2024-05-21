@@ -76,19 +76,6 @@ void setup() {
 
 
 void loop() {
-  // Check if the time has passed to take a new sensor reading
-  unsigned long tiempoActual = millis();
-  if (tiempoActual - tiempoUltimaLectura >= intervaloLectura) {
-    // Update last reading time
-    tiempoUltimaLectura = tiempoActual;
-    
-    // Change the state to SENSOR_ACTIVADO to start a new sensor reading
-    estado = SENSOR_ACTIVADO;
-  }
-}
-
-
-void loop() {
 
   // Dequeue (ir tomando, uno por uno, los estados del queue)
 
@@ -127,13 +114,15 @@ void loop() {
 
 
 void directing() {
+  // Obtener el tiempo actual
+  time_t now = now();
+  currentTime = String(hour(now)) + ":" + String(minute(now)) + ":" + String(second(now));
   if (tiempoActual % 30000 == 0) {
     estado = READ_SENSOR;
   }
-  if (// es media noche?? ///) {
-    estado = GET_INTERNET_TIME
+  if (currentHour == 0 && currentMinute == 0 && currentSecond == 0) {
+    estado = GET_INTERNET_TIME; 
   }
-
 }
 
 void sensorActivado() {
