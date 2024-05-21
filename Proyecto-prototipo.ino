@@ -20,6 +20,7 @@ int Temperatura;           // Any data type for measured temperature variable
 
 // Definition of the states
 enum Estado { 
+  IDLE
   DIRECTING
   GET_INTERNET_TIME
   READ_SENSOR
@@ -81,18 +82,17 @@ void loop() {
 
   // Call the function corresponding to the current state
   switch (estado) {
+    case IDLE:
+      idle();
+      break;
     case DIRECTING:
       directing();
       break;
-    case SENSOR_ACTIVADO:
-      sensorActivado();
+    case GET_INTERNET_TIME:
+      get_internet_time();
       break;
-    case ANALISIS_TEMPERATURA:
-      analisisTemperatura();
-      break;
-    case REMAPEO_VALORES:
-      remapeoValores();
-      envioDatosNube(); // Sending data to the cloud 
+    case READ_SENSOR:
+      read_sensor();
       break;
     case EVALUAR_TEMP:
       evaluar_temp();
@@ -103,8 +103,11 @@ void loop() {
     case DESACTIVACION:
       desactivacion();
       break;
-    case ENVIO_DATOS_NUBE:
-      envioDatosNube();
+    case STORE_SD:
+      store_sd();
+      break;
+    case SEND_CLOUD:
+      send_cloud();
       break;
   }
 
