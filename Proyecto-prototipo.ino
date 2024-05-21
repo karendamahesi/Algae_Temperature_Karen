@@ -117,10 +117,7 @@ void loop() {
 
 
 void directing() {
-  // Obtener el tiempo actual
-  time_t now = now();
-  currentTime = String(hour(now)) + ":" + String(minute(now)) + ":" + String(second(now));
-  if (tiempoActual % 30000 == 0) {
+    if (tiempoActual % 30000 == 0) {
     estado = READ_SENSOR;
   }
   if (currentHour == 0 && currentMinute == 0 && currentSecond == 0) {
@@ -128,50 +125,44 @@ void directing() {
   }
 }
 
-void sensorActivado() {
+void get_internet_time(){
+  // Obtener el tiempo actual
+  time_t now = now();
+  currentTime = String(hour(now)) + ":" + String(minute(now)) + ":" + String(second(now));
+}
+
+
+void read_sensor() {
   // Show message on LCD screen
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Sensor activado");
   
-  // Switch to next state after a while
-  delay(2000); // Wait 2 seconds
-  estado = ANALISIS_TEMPERATURA;
-}
-
-
-void analisisTemperatura() {
-    
-  // Switch to next state after a while
-  delay(2000); // Wait 2 seconds
-  estado = REMAPEO_VALORES;
-}
-
-
-void remapeoValores() {
   // Temperature sensor reading
   int lecturaSensor = analogRead(sensorPin);
-  
+
   // Remapping values to temperature
   float temperatura = map(lecturaSensor, 0, 1023, -80, 150);
 
-// Show temperature on LCD screen
+  // Show temperature on LCD screen
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temperatura:");
   lcd.setCursor(0, 1);
   lcd.print(temperatura);
   lcd.print(" C");
-  
-// Update temperature value in Arduino Cloud
-  ArduinoCloud.updateTemperature(temperatura);
 
-    // Switch to next state
+  // Update temperature value in Arduino Cloud
+  ArduinoCloud.updateTemperature(temperatura);
+  
+  // Switch to next state after a while
+  delay(3000); // Wait 3 seconds
   estado = EVALUAR_TEMP;
 }
 
-evaluar_temp() {
-    // Check if the recorded temperature is >26°C
+
+void evaluar_temp() {
+  // Check if the recorded temperature is >26°C
   if (temperatura > 26) {
     estado = ACTIVACION;
   }
@@ -180,22 +171,30 @@ evaluar_temp() {
   }
 }
 
+
 void activacion() {
+  // Turn on the relay that activates the water pump
+  digitalWrite(relePin, HIGH);
 
-    // Turn on the relay that activates the water pump
-    digitalWrite(relePin, HIGH);
-
-    estado = IDLE;
-
-
+  estado = IDLE;
 }
 
 
 void desactivacion() {
+  // Turn on the relay that activates the water pump
+  digitalWrite(relePin, LOW);
 
-    // Turn on the relay that activates the water pump
-    digitalWrite(relePin, LOW);
+  estado = IDLE;
+}
 
-    estado = IDLE;
 
+void send_cloud(){
+  // Update temperature value in Arduino Cloud
+  ArduinoCloud.updateTemperature(temperatura);
+
+  estado = STORE_SD
+}
+
+void store_sd(){
+  
 }
