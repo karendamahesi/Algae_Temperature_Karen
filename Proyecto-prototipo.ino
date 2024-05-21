@@ -28,22 +28,37 @@ enum Estado {
   DESACTIVACION
   STORE_SD
   SEND_CLOUD
+}; 
 
-
-
-  SENSOR_ACTIVADO
-  ANALISIS_TEMPERATURA
-  REMAPEO_VALORES
-  EVALUAR_TEMP
-  ACTIVACION
-  DESACTIVACION
-  ENVIO_DATOS_NUBE}; 
-
-Estado estado=SENSOR_ACTIVADO; //Initial state
+Estado estado=READ_SENSOR; //Initial state
 
 unsigned long tiempoUltimaLectura = 0; // Variable to record the time of the last sensor reading
 const unsigned long intervaloLectura = 30 * 60 * 1000; // Reading interval: 30 minutes in milliseconds
 
+// Variables para Arduino IoT Cloud
+float temperature;
+String currentTime;
+
+// Definición de tu red WiFi y credenciales de Arduino IoT Cloud
+const char SSID[]     = "your_SSID";    // Tu SSID
+const char PASS[]     = "your_PASSWORD"; // Tu contraseña de red
+const char DEVICE_ID[]  = "your_DEVICE_ID";  // Tu Device ID de Arduino IoT Cloud
+const char DEVICE_SECRET[] = "your_DEVICE_SECRET"; // Tu Device Secret de Arduino IoT Cloud
+
+// Inicialización de la conexión WiFi y Arduino IoT Cloud
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  ArduinoCloud.addProperty(temperature, READWRITE, ON_CHANGE, NULL);
+  ArduinoCloud.addProperty(currentTime, READWRITE, ON_CHANGE, NULL);
+  setDebugMessageLevel(2);
+  ArduinoCloud.printDebugInfo();
+
+  // Conectar a WiFi
+  WiFi.begin(SSID, PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  } 
+  
 
 void setup() {
 	// LCD screen initialization
