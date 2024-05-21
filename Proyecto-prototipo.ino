@@ -1,9 +1,14 @@
 // Karen Cruz 2024
 
-//Include LiquidCrystal libreries
+//Include libreries
+#include <ArduinoIoTCloud.h>
+#include <Arduino_ConnectionHandler.h>
+#include <WiFi.h>
 #include <LiquidCrystal.h>
 #include <Wire.h>
 #include "thingProperties.h"
+#include <SD.h>
+#include <SPI.h>
 
 
 // Pin definition for LCD screen
@@ -16,6 +21,7 @@ const int sensorPin = A0; // Analog pin for temperature sensor
 const int bombaPin = 9;    // Digital pin for water pump
 const int relePin = 8;     // Digital pin to control the relay
 int Temperatura;           // Any data type for measured temperature variable
+const int chipSelect = 10; // Pin para el chip select de la tarjeta SD
 
 
 // Definition of the states
@@ -73,6 +79,13 @@ void setup() {
   ArduinoCloud.begin(ArduinoIoTPreferredConnection);
   setDebugMessageLevel(2);
   ArduinoCloud.printDebugInfo();
+
+  // Inicialización de la tarjeta SD
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Error inicializando la tarjeta SD!");
+    return;
+  }
+  Serial.println("Tarjeta SD inicializada correctamente.");
   }
 
 
@@ -195,6 +208,21 @@ void send_cloud(){
   estado = STORE_SD
 }
 
+
 void store_sd(){
-  
+  // Guardar los datos en la tarjeta SD
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+
+  if (dataFile) {
+    dataFile.print("Time: ");
+    dataFile.print(currentTime);
+    dataFile.print(", Temp: ");
+    dataFile.println(temperature);
+    dataFile.close();
+    Serial.println("Datos guardados en la tarjeta SD.");
+  } else {
+    Serial.println("Error abriendo el archivo datalog.txt");
+  }
+
+  estado = IDLE
 }
