@@ -1,14 +1,19 @@
 // Karen Cruz 2024
 
 //Include libreries
-#include <ArduinoIoTCloud.h>
+#include <ArduinoIoTCloud.h>            // Librerias IoT
 #include <Arduino_ConnectionHandler.h>
-#include <WiFi.h>
-#include <LiquidCrystal.h>
+#include <thingProperties.h>
+#include <WiFi.h>                       // Librerias conexion WiFi
+#include <WiFiUdp.h>
+#include <LiquidCrystal.h>              // Librerias pantalla lcd
 #include <Wire.h>
-#include "thingProperties.h"
-#include <SD.h>
+#include <SD.h>                         // Librerias memoria SD
 #include <SPI.h>
+#include <NTPClient.h>                  // Librerias para obtener la hora por WiFi
+#include <Time.h>
+#include <TimeLib.h>
+#include <Timezone.h>
 
 
 // Pin definition for LCD screen
@@ -47,9 +52,9 @@ float temperature;
 String currentTime;
 
 // Definición de tu red WiFi y credenciales de Arduino IoT Cloud
-const char SSID[]     = "your_SSID";    // Tu SSID
-const char PASS[]     = "your_PASSWORD"; // Tu contraseña de red
-const char DEVICE_ID[]  = "your_DEVICE_ID";  // Tu Device ID de Arduino IoT Cloud
+const char SSID[]     = COQUIS;    // Tu SSID
+const char PASS[]     = espejocarretillaprincesa; // Tu contraseña de red
+const char DEVICE_ID[]  = 630d9091-cb70-48b1-9f55-27ff4ab9f2ff;  // Tu Device ID de Arduino IoT Cloud
 const char DEVICE_SECRET[] = "your_DEVICE_SECRET"; // Tu Device Secret de Arduino IoT Cloud
 
 // Inicialización de la conexión WiFi y Arduino IoT Cloud
@@ -63,7 +68,7 @@ const char DEVICE_SECRET[] = "your_DEVICE_SECRET"; // Tu Device Secret de Arduin
   WiFi.begin(SSID, PASS);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    Serial.println("Connecting to WiFi...");
+    Serial.println("Conectando a WiFi...");
   } 
   
 
