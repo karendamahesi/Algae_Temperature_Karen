@@ -93,7 +93,7 @@ void setup() {
 	// LCD screen initialization
 	lcd.begin(16, 2);
   
-  
+
 	// Water pump and relay pin initialization
   pinMode(bombaPin, OUTPUT);
   pinMode(relePin, OUTPUT);
@@ -183,10 +183,17 @@ void directing() {
     if (tiempoActual % 30000 == 0) {
     estado = READ_SENSOR;
   }
+  // Obtener la hora actual para verificar si es medianoche
+  timeClient.update();
+  int currentHour = timeClient.getHours();
+  int currentMinute = timeClient.getMinutes();
+  int currentSecond = timeClient.getSeconds();
+  //Cambiar al estado GET_INTERNET_TIME a media noche
   if (currentHour == 0 && currentMinute == 0 && currentSecond == 0) {
     estado = GET_INTERNET_TIME; 
   }
 }
+
 
 void get_internet_time(){
   // Obtener el tiempo actual
@@ -214,6 +221,10 @@ void read_sensor() {
   lcd.setCursor(0, 1);
   lcd.print(temperatura);
   lcd.print(" C");
+
+ // Obtener el tiempo actual
+  timeClient.update();
+  currentTime = timeClient.getFormattedTime();
 
   // Update temperature value in Arduino Cloud
   ArduinoCloud.updateTemperature(temperatura);
@@ -264,9 +275,9 @@ void store_sd(){
   File dataFile = SD.open("datalog.txt", FILE_WRITE);
 
   if (dataFile) {
-    dataFile.print("Time: ");
+    dataFile.print("Hora: ");
     dataFile.print(currentTime);
-    dataFile.print(", Temp: ");
+    dataFile.print(", Temperatura: ");
     dataFile.println(temperature);
     dataFile.close();
     Serial.println("Datos guardados en la tarjeta SD.");
@@ -275,4 +286,14 @@ void store_sd(){
   }
 
   estado = IDLE
+}
+
+
+void idle() {
+  // Mantener el estado IDLE durante 30 minutos
+  if (millis() - tiempoInicioIdle >= duracionIdle) {
+    // Cambiar al siguiente estado después del periodo de inactividad
+    estado = SENSOR_ACTIVADO;
+    tiempoInicioIdle = millis(); // Reiniciar el temporizador de inactividad
+  }
 }
