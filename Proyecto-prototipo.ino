@@ -3,7 +3,6 @@
 //Include libreries
 #include <ArduinoIoTCloud.h>            // Librerias IoT
 #include <Arduino_ConnectionHandler.h>
-#include <thingProperties.h>
 #include <WiFi.h>                       // Librerias conexion WiFi
 #include <WiFiUdp.h>
 #include <LiquidCrystal.h>              // Librerias pantalla lcd
