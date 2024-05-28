@@ -12,7 +12,6 @@
 #include <NTPClient.h>                  // Librerias para obtener la hora por WiFi
 #include <Time.h>
 #include <TimeLib.h>
-#include <Timezone.h>
 
 
 // Pin definition for LCD screen
@@ -30,16 +29,16 @@ const int chipSelect = 10; // Pin para el chip select de la tarjeta SD
 
 // Definition of the states
 enum Estado { 
-  IDLE
-  DIRECTING
-  GET_INTERNET_TIME
-  READ_SENSOR
-  EVALUAR_TEMP
-  ACTIVACION
-  DESACTIVACION
-  STORE_SD
-  SEND_CLOUD
-}; 
+  IDLE,
+  DIRECTING,
+  GET_INTERNET_TIME,
+  READ_SENSOR,
+  EVALUAR_TEMP,
+  ACTIVACION,
+  DESACTIVACION,
+  STORE_SD,
+  SEND_CLOUD,
+}
 
 Estado estado=READ_SENSOR; //Initial state
 
