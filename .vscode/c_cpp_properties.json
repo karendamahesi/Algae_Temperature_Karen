@@ -27,6 +27,7 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
+                "C:\\Users\\Gusana\\Documents\\Arduino\\libraries",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\tinyusb",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\api\\deprecated",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\api\\deprecated-avr-comp",
