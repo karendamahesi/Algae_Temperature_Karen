@@ -6,10 +6,7 @@
             "compilerPath": "",
             "compilerArgs": [],
             "intelliSenseMode": "",
-            "includePath": [
-                "C:\\Program Files\\Arduino IDE\\Librerias\\Arduino\\libraries\\LiquidCrystal",
-                "C:/Program Files/Arduino IDE/Librerias/Arduino/libraries/LiquidCrystal/src"
-            ],
+            "includePath": [],
             "forcedInclude": [],
             "cStandard": "",
             "cppStandard": "",
