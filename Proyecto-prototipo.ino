@@ -38,7 +38,7 @@ enum Estado {
   DESACTIVACION,
   STORE_SD,
   SEND_CLOUD,
-}
+};
 
 
 // Variables para Arduino IoT Cloud
@@ -59,7 +59,7 @@ const long utcOffsetInSeconds = -6 * 3600; // Offset de UTC para Ciudad de Méxi
 NTPClient timeClient(ntpUDP, "pool.ntp.org", utcOffsetInSeconds, 60000); // Actualiza cada 60 segundos
 
 
-unsigned long tiempoActual = 0;
+unsigned long tiempoActual = 0;  // Declaration of tiempoActual variable
 unsigned long tiempoUltimaLectura = 0; // Variable para registrar el tiempo de la última lectura del sensor
 const unsigned long intervaloLectura = 30 * 60 * 1000; // Intervalo de lectura: 30 minutos en milisegundos
 unsigned long tiempoInicioIdle = 0; // Variable para registrar el inicio del estado IDLE
@@ -196,8 +196,8 @@ void directing() {
 
 void get_internet_time(){
   // Obtener el tiempo actual
-  time_t current_time = now();
-  currentTime = String(hour(now)) + ":" + String(minute(now)) + ":" + String(second(now));
+  time_t current_time = now(); // Utilizar la función now() para obtener el tiempo actual
+  currentTime = String(hour(current_time)) + ":" + String(minute(current_time)) + ":" + String(second(current_time)); // Usar la variable current_time en lugar de now()
 }
 
 
@@ -223,7 +223,7 @@ void read_sensor() {
 
  // Obtener el tiempo actual
   timeClient.update();
-  currentTime = timeClient.getFormattedTime();
+  currentTime = timeClient.getFormattedTime(); // Utilizar la variable global currentTime
 
   // Update temperature value in Arduino Cloud
   ArduinoIoTCloud.updateTemperature(temperatura);
@@ -265,7 +265,7 @@ void send_cloud(){
   // Update temperature value in Arduino Cloud
   ArduinoIoTCloud.updateTemperature(Temperatura);
 
-  Estado = STORE_SD
+  Estado = STORE_SD;
 }
 
 
@@ -284,7 +284,7 @@ void store_sd(){
     Serial.println("Error abriendo el archivo datalog.txt");
   }
 
-  Estado = IDLE
+  Estado = IDLE;
 }
 
 
