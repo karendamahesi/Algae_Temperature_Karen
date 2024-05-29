@@ -12,6 +12,7 @@
 #include <NTPClient.h>                  // Librerias para obtener la hora por WiFi
 #include <Time.h>
 #include <TimeLib.h>
+#include <LinkedList.h>
 
 
 // Pin definition for LCD screen
@@ -42,7 +43,6 @@ enum Estado {
 
 
 // Variables para Arduino IoT Cloud
-float temperature;
 String currentTime;
 
 
@@ -66,6 +66,9 @@ unsigned long tiempoInicioIdle = 0; // Variable para registrar el inicio del est
 const unsigned long duracionIdle = 30 * 60 * 1000; // Duración del estado IDLE: 30 minutos en milisegundos
 
 
+//Create an instance of the linked list to handle states
+LinkedList<Estado> estadoQueue = LinkedList<Estado>();
+
 
 void setup() {
    // LCD screen initialization
@@ -80,21 +83,20 @@ void setup() {
   } 
 
 
-  //Inicialización de la variable estado
-  Estado estado=READ_SENSOR; //Estado inicial
+//Inicializar la cola de tareas
+estadoQueue.add(READ_SENSOR);
 
+//Add the initial state to the queue
+Serial.println("Initial state (READ_SENSOR) added to the queue");
 
-  // Iniciar la cola de tareas
-  queueIndex = 0;
-  Estado = READ_SENSOR;
 
 
 // Inicialización de la conexión WiFi y Arduino IoT Cloud
-  ArduinoIoTCloud.begin(ArduinoIoTPreferredConnection);
-  ArduinoIoTCloud.addProperty(temperature, READWRITE, ON_CHANGE, NULL);
-  ArduinoIoTCloud.addProperty(currentTime, READWRITE, ON_CHANGE, NULL);
+  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+  ArduinoCloud.addProperty(temperature, READWRITE, ON_CHANGE, NULL);
+  ArduinoCloud.addProperty(currentTime, READWRITE, ON_CHANGE, NULL);
   setDebugMessageLevel(2);
-  ArduinoIoTCloud.printDebugInfo();
+  ArduinoCloud.printDebugInfo();
 
 
 	// Water pump and relay pin initialization

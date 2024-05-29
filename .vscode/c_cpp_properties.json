@@ -27,7 +27,6 @@
             ],
             "intelliSenseMode": "gcc-x64",
             "includePath": [
-                "C:\\Users\\Gusana\\Documents\\Arduino\\libraries",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\tinyusb",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\api\\deprecated",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\cores\\arduino\\api\\deprecated-avr-comp",
@@ -47,7 +46,7 @@
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\libraries\\SPI",
                 "C:\\Users\\Gusana\\Documents\\Arduino\\libraries\\NTPClient",
                 "C:\\Users\\Gusana\\Documents\\Arduino\\libraries\\Time",
-                "C:\\Users\\Gusana\\Documents\\Arduino\\libraries\\Timezone\\src",
+                "C:\\Users\\Gusana\\Documents\\Arduino\\libraries\\LinkedList",
                 "C:\\Users\\Gusana\\Documents\\Arduino\\libraries\\ArduinoHttpClient\\src",
                 "C:\\Users\\Gusana\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.1.0\\libraries\\RTC\\src",
                 "c:\\users\\gusana\\appdata\\local\\arduino15\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4\\arm-none-eabi\\include\\c++\\7.2.1",
