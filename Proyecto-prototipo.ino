@@ -5,7 +5,7 @@
 #include <Arduino_ConnectionHandler.h>
 #include <WiFi.h>                       // Librerias conexion WiFi
 #include <WiFiUdp.h>
-#include <LiquidCrystal.h>              // Librerias pantalla lcd
+#include <LiquidCrystal_I2C.h>          // Librerias pantalla lcd
 #include <Wire.h>
 #include <SD.h>                         // Librerias memoria SD
 #include <SPI.h>
@@ -15,9 +15,8 @@
 #include <LinkedList.h>
 
 
-// Pin definition for LCD screen
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+//Crear el objeto lcd  dirección  0x3F y 16 columnas x 2 filas
+LiquidCrystal_I2C lcd(0x3F,16,2); 
 
 
 // Definition of pins and variables for the temperature sensor and the water pump
@@ -72,7 +71,10 @@ LinkedList<Estado> estadoQueue = LinkedList<Estado>();
 
 void setup() {
    // LCD screen initialization
-	lcd.begin(16, 2);
+	lcd.init();
+
+  //Encender la luz de fondo.
+  lcd.backlight();
 
 
   // Conectar a WiFi
